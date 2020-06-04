@@ -213,6 +213,21 @@
             }],
         });
     });
+
+    $(document).ready(function () {
+        $('#myTable2').dataTable({
+            "order": [[0, "asc"]],
+            'iDisplayLength': 10,
+            "bFilter": true,
+            "bPaginate": true,
+            "bInfo": true,
+            "bLengthChange": true,
+            "columnDefs": [{
+                "targets": 0,
+            }],
+            "sPaginationType": "full_numbers"
+        });
+    });
 </script>
 </body>
 </html>
