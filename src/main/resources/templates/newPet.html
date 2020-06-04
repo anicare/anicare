@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="menu">
+<body>
+<div layout:fragment="mainpage">
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
+    <div class="container mtb">
+        <div class="col-md-12" sec:authorize="hasRole('ROLE_USER')">
+            <form th:action="@{/saveNewPet}" method="post"
+                  th:object="${pet}" enctype="multipart/form-data"
+                  class="form-horizontal">
+                <fieldset>
+                    <div th:if="${past}" class="alert alert-danger" role="alert">
+                        <strong>Date of Birth can't be future.</strong>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Name</label>
+                        <div class="col-md-4">
+                            <input required="required" type="text" th:field="*{name}"
+                                   placeholder="Name" class="form-control input-md"/>
+                            <b><span th:errors="*{name}" class="text-danger"></span></b>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">ID Number</label>
+                        <div class="col-md-4">
+                            <input required="required" type="text" th:field="*{idNumber}" placeholder="ID Number"
+                                   class="form-control input-md"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Type</label>
+                        <div class="col-md-4">
+                            <input required="required" type="text" th:field="*{type}"
+                                   placeholder="Type" class="form-control input-md"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Subtype</label>
+                        <div class="col-md-4">
+                            <input type="text" th:field="*{subtype}" placeholder="Subtype"
+                                   class="form-control input-md"/>
+                            <b><span th:errors="*{subtype}" class="text-danger"></span></b>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Image</label>
+                        <div class="col-md-4">
+                            <input type="text" th:field="*{imageUrl}" placeholder="Image URL"
+                                   class="form-control input-md"/>
+                            <b><span th:errors="*{imageUrl}" class="text-danger"></span></b>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Date of Birth</label>
+                        <div class="col-md-4">
+                            <input type="date" th:field="*{dateOfBirth}"
+                                   placeholder="License Number" class="form-control input-md"/>
+                            <b><span th:errors="*{dateOfBirth}" class="text-danger"></span></b>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Gender</label>
+                        <div class="col-md-4">
+                            <select th:field="*{gender}" class="form-control">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <input type="submit" value="Save" class="btn btn-theme"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

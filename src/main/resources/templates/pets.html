@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="menu">
+
+<body>
+<div layout:fragment="mainpage">
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div th:if="${newPetSuccess}" class="alert alert-success" role="alert">
+                    <strong>New pet added successfully.</strong>
+                </div>
+                <table id="myTable1" class="table table-bordred table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Name</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Subtype</th>
+                        <th class="text-center">Date of Birth</th>
+                        <th class="text-center">Profile</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pet : ${pets}" class="text-center">
+                        <td th:text="${pet.idNumber}"></td>
+                        <td th:text="${pet.name}"></td>
+                        <td th:text="${pet.subtype}"></td>
+                        <td th:text="${pet.type}"></td>
+                        <td th:text="${pet.dateOfBirth}"></td>
+                        <td class="td-actions">
+                            <a th:href="@{/petInfo(id=${pet.id})}" class="btn btn-default btn-xs"><span
+                                    class="fas fa-search"></span>View</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

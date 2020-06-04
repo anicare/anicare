@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="menu">
+<body>
+<div layout:fragment="mainpage">
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
+    <div class="container mtb">
+        <div class="row">
+            <div class="col-lg-6 col-md-offset-3">
+                <div class="col-md-12">
+                    <form th:action="@{/changeCity}" method="post"
+                          th:object="${customer}" role="form">
+                        <div class="form-group" sec:authorize="hasRole('ROLE_USER')">
+                            <label for="InputEmail1">City *</label> <b><span
+                                th:errors="*{city}" class="text-danger"></span></b> <select
+                                th:field="*{city}" class="form-control">
+                            <option hidden="" value="0"></option>
+                            <option th:each="city : ${cities}"
+                                    th:value="${city}"
+                                    th:text="${city}"></option>
+                        </select>
+                        </div>
+                        <input type="submit" class="btn btn-theme" value="Save"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

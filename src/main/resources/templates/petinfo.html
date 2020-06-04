@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="menu">
+
+<body>
+<div layout:fragment="mainpage">
+    <div id="blue">
+        <div class="container">
+            <div class="row">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div th:if="${param.updatedPet}" class="alert alert-success" role="alert">
+            <strong>Pet updated successfully.</strong>
+        </div>
+        <header class="header jumbotron">
+            <div class="container">
+                <div class="teacher-name">
+                    <div class="row" style="margin-top: 0px;"></div>
+                </div>
+
+                <div class="row" style="margin-top: 20px;">
+                    <div th:if="${hasPhoto}" class="col-md-3">
+                        <img th:src="${pet.imageUrl}" alt="image"/>
+                    </div>
+
+                    <div class="col-md-6">
+                        <p>
+                            Name: <span th:text="${pet.name}"></span>
+                        </p>
+                        <p>
+                            Date Of Birth: <span th:text="${pet.dateOfBirth}"></span>
+                        </p>
+                        <p>
+                            ID: <span th:text="${pet.idNumber}"></span>
+                        </p>
+                    </div>
+
+                    <div class="col-md-3 text-center">
+                        <div style="padding-top: 18px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="col-lg-12 col-sm-6">
+            <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+                <div class="btn-group" role="group">
+                    <button type="button" id="stars" class="btn btn-default" href="#tab1" data-toggle="tab"><span
+                            class="fa fa-user fa-fw" aria-hidden="true"></span>
+                        <div class="hidden-xs">Profile</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="favorites" class="btn btn-default" href="#tab2" data-toggle="tab"><span
+                            class="fa fa-calendar fa-fw" aria-hidden="true"></span>
+                        <div class="hidden-xs">Appointments</div>
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" id="following" class="btn btn-default" href="#tab3" data-toggle="tab"><span
+                            class="fas fa-heartbeat fa-fw" aria-hidden="true"></span>
+                        <div class="hidden-xs">Results</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="well">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab1">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fa fa-user fa-fw"></i>Profile
+                                    </h2>
+                                    <div style="height: 15px"></div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            First Name: <span
+                                                th:text="${pet.name}"></span>
+                                        </p>
+                                        <p>
+                                            Date Of Birth: <span th:text="${pet.dateOfBirth}"></span>
+                                        </p>
+                                        <p>
+                                            ID: <span th:text="${pet.idNumber}"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            Type: <span th:text="${pet.type}"></span>
+                                        </p>
+                                        <p>
+                                            Subtype: <span th:text="${pet.subtype}"></span>
+                                        </p>
+                                        <p>
+                                            Gender: <span th:text="${pet.gender}"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade in" id="tab2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fa fa-calendar fa-fw"></i>Appointments
+                                    </h2>
+                                    <div style="height: 15px"></div>
+                                    <table class="table table-bordered" id="myTable1">
+                                        <thead class="thead-default">
+                                        <tr>
+                                            <th class="text-center">To Date</th>
+                                            <th class="text-center">Vet</th>
+                                            <th class="text-center">Note</th>
+                                            <th class="text-center">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="text-center"
+                                            th:each="appointment : ${pet.appointment}">
+                                            <td th:text="${appointment.toDate}"></td>
+                                            <td
+                                                    th:text="${appointment.vet.getFirstName() +' '+ appointment.vet.getLastName()}"></td>
+                                            <td th:text="${appointment.note}"></td>
+                                            <td class="td-actions"><a
+                                                    th:href="@{/editAppointment(id=${appointment.id})}"
+                                                    class="btn btn-default btn-xs"><span
+                                                    class="fas fa-pencil-alt"></span>Edit</a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane fade in" id="tab3">
+                        <div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fa fa-stethoscope fa-fw"></i>Diagnosis
+                                    </h2>
+                                    <br/>
+                                    <form th:action="@{/updatePet}" method="post"
+                                          th:object="${pet}" role="form">
+                                        <div class="form-group">
+                                            <textarea rows="6" type="text" th:field="*{note}"
+                                                      class="form-control" id="exampleInputEmail1"
+                                                      placeholder=""></textarea>
+                                        </div>
+                                        <input type="submit" class="btn btn-theme" value="Save"/>
+                                    </form>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+                        <div class="row" sec:authorize="hasRole('ROLE_USER')">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fa fa-stethoscope fa-fw"></i>Diagnosis
+                                    </h2>
+                                    <br/>
+                                    <textarea rows="6" type="text" th:field="*{pet.note}"
+                                              class="form-control" id="exampleInputEmail1" placeholder=""
+                                              readonly="readonly"></textarea>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+                        <div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-syringe fa-fw"></i>Vaccine
+                                    </h2>
+                                    <br/>
+                                    <form th:action="@{/updatePet}" method="post"
+                                          th:object="${pet}" role="form">
+                                        <div class="form-group">
+                                            <textarea rows="6" type="text" th:field="*{vaccine}"
+                                                      class="form-control" id="exampleInputEmail1"
+                                                      placeholder=""></textarea>
+                                        </div>
+                                        <input type="submit" class="btn btn-theme" value="Save"/>
+                                    </form>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+                        <div class="row" sec:authorize="hasRole('ROLE_USER')">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-syringe fa-fw"></i>Vaccine
+                                    </h2>
+                                    <br/>
+                                    <textarea rows="6" type="text" th:field="*{pet.vaccine}"
+                                              class="form-control" id="exampleInputEmail1" placeholder=""
+                                              readonly="readonly"></textarea>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+                        <div class="row" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-vial fa-fw"></i>Lab Results
+                                    </h2>
+                                    <br/>
+                                    <form th:action="@{/updatePet}" method="post"
+                                          th:object="${pet}" role="form">
+                                        <div class="form-group">
+                                            <textarea rows="6" type="text" th:field="*{labResults}"
+                                                      class="form-control" id="exampleInputEmail1"
+                                                      placeholder=""></textarea>
+                                        </div>
+                                        <input type="submit" class="btn btn-theme" value="Save"/>
+                                    </form>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+                        <div class="row" sec:authorize="hasRole('ROLE_USER')">
+                            <div class="col-md-12">
+                                <div class="card card-block">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-vial fa-fw"></i>Lab Results
+                                    </h2>
+                                    <br/>
+                                    <textarea rows="6" type="text" th:field="*{pet.labResults}"
+                                              class="form-control" id="exampleInputEmail1" placeholder=""
+                                              readonly="readonly"></textarea>
+                                </div>
+                                <br/><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="modal fade myModal" id="" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12" sec:authorize="hasRole('ROLE_ADMIN')">
+                            <form th:action="@{/updatePet}" method="post"
+                                  th:object="${pet}" enctype="multipart/form-data"
+                                  class="form-horizontal">
+                                <fieldset>
+                                    <input type="hidden" th:field="*{idNumber}" placeholder="ID"/>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">First Name</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-user"> </i>
+                                                </div>
+                                                <input type="text" th:field="*{name}"
+                                                       placeholder="First Name" class="form-control input-md"/>
+                                            </div>
+                                            <b><span th:errors="*{name}" class="text-danger"></span></b>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Date Of Birth</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-birthday-cake"> </i>
+                                                </div>
+                                                <input type="date" th:field="*{dateOfBirth}"
+                                                       placeholder="License Number" class="form-control input-md"/>
+                                            </div>
+                                            <b><span th:errors="*{dateOfBirth}" class="text-danger"></span></b>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Gender</label>
+                                        <div class="col-md-4">
+                                            <select th:field="*{gender}" class="form-control">
+                                                <option value="male">male</option>
+                                                <option value="female">female</option>
+                                                <option value="other">other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Phone</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-phone" style="font-size: 20px;"></i>
+                                                </div>
+                                                <input type="text" th:field="*{subtype}" placeholder="Phone"
+                                                       class="form-control input-md"/>
+                                            </div>
+                                            <b><span th:errors="*{subtype}" class="text-danger"></span></b>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Email Address</label>
+                                        <div class="col-md-4">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-envelope-o"></i>
+                                                </div>
+                                                <input type="text" th:field="*{type}"
+                                                       placeholder="Email Address" class="form-control input-md"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input type="submit" value="Save" class="btn btn-theme"/>
+                                            <a class="btn btn-danger" data-dismiss="modal" value="">
+                                                <span></span>Cancel
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</div>
+</body>
+</html>

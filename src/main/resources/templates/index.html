@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Anicare</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link th:href="@{../assets/img/homepage/favicon.png}" rel="shortcut icon" type="image/x-icon"/>
+    <link th:href="@{../assets/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{../assets/css/themify-icons.css}" rel="stylesheet"/>
+
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/owl.carousel.min.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/magnific-popup.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/nice-select.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/flaticon.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/gijgo.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/animate.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/slicknav.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/homepage.css" rel="stylesheet"/>
+</head>
+
+<body style="background: #ffffff">
+<header>
+    <div class="header-area">
+        <div id="sticky-header" class="main-header-area">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="logo">
+                            <a href="/home">
+                                <img style="margin-bottom: 10%" th:src="@{../assets/img/homepage/anicare-logo.png}"
+                                     alt=""/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-9">
+                        <div class="main-menu  d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                    <li><a href="/home">Home</a></li>
+                                    <li><a href="/contact">Contact</a></li>
+                                    <li><a href="#">Account<i class="ti-angle-down"></i></a>
+                                        <ul class="submenu">
+                                            <li><a href="/login">Login</a></li>
+                                            <li><a href="/register">Register</a></li>
+                                            <li><a href="/registerVet">Apply Vet</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mobile_menu d-block d-lg-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="slider_area">
+    <div th:style="'background-image:url('+ @{../assets/img/homepage/banner/banner.jpeg} +');'"
+         class="single_slider slider_bg_1 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-6">
+                    <div class="slider_text">
+                        <h3>Come to<br/> <span>Anicare</span></h3>
+                        <p>The one and only veterinary system in Turkey!<br/>It's completely free!</p>
+                        <a href="contact.html" class="boxed-btn4" style="color: #2E0862;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dog_thumb d-none d-lg-block">
+            <img th:src="@{../assets/img/homepage/banner/dog.png}" alt=""/>
+        </div>
+    </div>
+</div>
+
+<div><br/><br/><br/><br/><br/><br/></div>
+
+<div class="pet_care_area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 col-md-6">
+                <div class="pet_thumb">
+                    <img th:src="@{../assets/img/homepage/pet_care.png}" alt=""/>
+                </div>
+            </div>
+            <div class="col-lg-6 offset-lg-1 col-md-6">
+                <div class="pet_info">
+                    <div class="section_title">
+                        <h3><span>We care your pet<br/></span>
+                            As much as you</h3>
+                        <p>We care about your pets!<br/>We trust our veterinarians.<br/>You can leave a rating and look
+                            at the ratings.<br/>
+                            before you book an appointment! 🧡</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="adapt_area">
+    <div class="container">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-lg-5">
+                <div class="adapt_help">
+                    <div class="section_title">
+                        <h3><span>Our users<br/></span>
+                            are happy</h3>
+                        <p>We have lots of happy users and we are proud of it!<br/>Don't hesitate to contact us for
+                            help. 💚</p>
+                        <a href="contact.html" class="boxed-btn3" style="background: #367c21">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="adapt_about">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single_adapt text-center">
+                                <img th:src="@{../assets/img/homepage/adapt_icon/1.png}" alt=""/>
+                                <div class="adapt_content">
+                                    <h3 class="counter">53</h3>
+                                    <p>Happy Users</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single_adapt text-center">
+                                <img th:src="@{../assets/img/homepage/adapt_icon/3.png}" alt=""/>
+                                <div class="adapt_content">
+                                    <h3><span class="counter">25</span>+</h3>
+                                    <p>Happy Dogs</p>
+                                </div>
+                            </div>
+                            <div class="single_adapt text-center">
+                                <img th:src="@{../assets/img/homepage/adapt_icon/2.png}" alt=""/>
+                                <div class="adapt_content">
+                                    <h3><span class="counter">25</span>+</h3>
+                                    <p>Happy Cats</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" style="background: #ffffff">
+    <div class="copy-right_text">
+        <div class="container">
+            <div class="bordered_1px"></div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <p class="copy_right text-center">
+                    <p style="text-align: right">
+                        This website is made with ❤️by <a href="https://github.com/anicare" target="_blank">Anicare
+                        Team</a></p>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/modernizr-3.5.0.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery-1.12.4.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/bootstrap.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/owl.carousel.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/isotope.pkgd.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/ajax-form.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/waypoints.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/imagesloaded.pkgd.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/scrollIt.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.scrollUp.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/wow.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/nice-select.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.slicknav.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.magnific-popup.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/plugins.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/gijgo.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/popper.min.js"></script>
+
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/contact.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.ajaxchimp.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.validate.min.js"></script>
+
+<script th:src="@{../assets/js/main.js}"></script>
+<script th:src="@{../assets/js/jquery-counterup.min.js}"></script>
+
+<script>
+    $('#datepicker').datepicker({
+        iconsLibrary: 'fontawesome',
+        disableDaysOfWeek: [0, 0],
+    });
+    $('#datepicker2').datepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-caret-down"></span>'
+        }
+    });
+    var timepicker = $('#timepicker').timepicker({
+        format: 'HH.MM'
+    });
+</script>
+</body>
+
+</html>

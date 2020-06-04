@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link th:href="@{../assets/css/images/icons/favicon.ico}" rel="shortcut icon"/>
+    <link th:href="@{../assets/fonts/font-awesome/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{../assets/fonts/linearicons-free/icon-font.min.css}" rel="stylesheet"/>
+    <link th:href="@{../assets/css/themify-icons.css}" rel="stylesheet"/>
+
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/login/animate/animate.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/login/css-hamburgers/hamburgers.min.css"
+          rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/login/animsition/css/animsition.min.css"
+          rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/login/daterangepicker/daterangepicker.css"
+          rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/util.css" rel="stylesheet"/>
+
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/select2.min.css" rel="stylesheet"/>
+
+    <link th:href="@{../assets/css/login.css}" rel="stylesheet"/>
+
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/owl.carousel.min.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/magnific-popup.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/nice-select.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/flaticon.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/gijgo.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/animate.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/slicknav.css" rel="stylesheet"/>
+</head>
+<body style="background: #f8f8f8">
+
+<header>
+    <div class="header-area">
+        <div id="sticky-header" class="main-header-area">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 col-lg-3">
+                        <div class="logo">
+                            <a href="/home">
+                                <img style="margin-bottom: 10%" th:src="@{../assets/img/homepage/anicare-logo.png}"
+                                     alt=""/>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-9">
+                        <div class="main-menu  d-none d-lg-block">
+                            <nav>
+                                <ul id="navigation">
+                                    <li><a href="/home">Home</a></li>
+                                    <li><a href="/contact">Contact</a></li>
+                                    <li><a href="#">Account<i class="ti-angle-down"></i></a>
+                                        <ul class="submenu">
+                                            <li><a href="/login">Login</a></li>
+                                            <li><a href="/register">Register</a></li>
+                                            <li><a href="/registerVet">Apply Vet</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mobile_menu d-block d-lg-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="limiter">
+    <div th:if="${success}" class="alert alert-success text-center" role="alert">
+        <strong>Registration Success!</strong>
+    </div>
+    <div class="container-login100" th:style="'background-image:url('+ @{../assets/img/fox1.jpeg} +');'">
+        <div class="wrap-login100 p-t-50 p-b-90">
+
+            <form th:action="@{/processLogin}" method="post" class="login100-form validate-form flex-sb flex-w"
+                  role="form">
+					<span class="login100-form-title p-b-51">
+						Login
+					</span>
+
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required"
+                     style="background: transparent; border-bottom: 2px solid black; color: #f8f8f8">
+                    <input class="input100" type="text" name="username" placeholder="Username"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+
+                <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required"
+                     style="background: transparent; border-bottom: 2px solid black; color: #f8f8f8">
+                    <input class="input100" type="password" name="password" placeholder="Password"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="flex-sb-m w-full p-t-3 p-b-24">
+                    <div class="contact100-form-checkbox">
+                        <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me"/>
+                        <label class="label-checkbox100" for="ckb1">
+                            Remember me
+                        </label>
+                    </div>
+
+                    <div>
+                        <a href="/contact" class="txt1">
+                            Forgot?
+                        </a>
+                    </div>
+                </div>
+
+                <div class="container-login100-form-btn m-t-17">
+                    <input type="submit" class="login100-form-btn" value="Login"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="dropDownSelect1"></div>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/jquery/jquery-3.2.1.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/animsition/js/animsition.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/bootstrap/js/popper.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/daterangepicker/moment.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/daterangepicker/daterangepicker.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/countdowntime/countdowntime.js"></script>
+
+<script th:src="@{../assets/js/login.js}"></script>
+
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/modernizr-3.5.0.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery-1.12.4.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/bootstrap.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/owl.carousel.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/isotope.pkgd.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/ajax-form.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/waypoints.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.counterup.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/imagesloaded.pkgd.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/scrollIt.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.scrollUp.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/wow.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/nice-select.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.slicknav.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.magnific-popup.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/plugins.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/gijgo.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/popper.min.js"></script>
+
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/contact.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.ajaxchimp.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.validate.min.js"></script>
+
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/login/select2/select2.min.js"></script>
+<script th:src="@{../assets/homepage/main.js}"></script>
+
+</body>
+</html>
