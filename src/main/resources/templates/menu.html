@@ -11,6 +11,9 @@
 
     <title>Anicare</title>
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+
     <link th:href="@{../assets/fonts/font-awesome/css/all.css}" rel="stylesheet"/>
     <link th:href="@{../assets/css/themify-icons.css}" rel="stylesheet"/>
 
@@ -21,7 +24,8 @@
     <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/animate.css" rel="stylesheet"/>
     <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/slicknav.css" rel="stylesheet"/>
     <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/bootstrap.css" rel="stylesheet"/>
-    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/searchPanes.dataTables.min.css" rel="stylesheet"/>
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/searchPanes.dataTables.min.css"
+          rel="stylesheet"/>
     <link th:href="@{../assets/css/style.css}" rel="stylesheet"/>
 
     <link rel="stylesheet"
@@ -70,6 +74,8 @@
                                     <ul class="submenu">
                                         <li><a th:href="@{/newPet}">New Pet</a></li>
                                         <li><a th:href="@{/pets}">Search Pets</a></li>
+                                        <li sec:authorize="hasRole('ROLE_USER')"><a th:href="@{/shelter}">Adopt Pets</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li><a href="#">Appointment<i class="ti-angle-down"></i></a>

@@ -1,11 +1,9 @@
 package com.anicare.project.controller;
 
-import com.anicare.project.model.City;
-import com.anicare.project.model.Customer;
-import com.anicare.project.model.CustomerRole;
-import com.anicare.project.model.Role;
+import com.anicare.project.model.*;
 import com.anicare.project.service.CityService;
 import com.anicare.project.service.CustomerService;
+import com.anicare.project.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,26 +20,45 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 @Controller
 public class IndexController {
 
     private final CustomerService customerService;
     private final CityService cityService;
+    private final ShelterService shelterService;
 
     @Autowired
-    public IndexController(CustomerService customerService, CityService cityService) {
+    public IndexController(CustomerService customerService, CityService cityService, ShelterService shelterService) {
         this.customerService = customerService;
         this.cityService = cityService;
+        this.shelterService = shelterService;
     }
 
     @RequestMapping(value = "/welcome")
     public String welcome() {
 
         return "home";
+    }
+
+    @RequestMapping(value = "/shelter")
+    public String shelter(Model model) {
+        List<Shelter> shelter = shelterService.allShelters();
+        Collections.sort(shelter);
+        IntStream.range(0, shelter.size())
+                .forEachOrdered(i -> shelter.get(i).setId((long) i + 1));
+        model.addAttribute("shelters", shelter);
+        return "shelter";
+    }
+
+    @RequestMapping(value = "/redirectShelter")
+    public String redirectShelter(String webAddress) {
+        return "redirect://" + webAddress;
     }
 
     @RequestMapping(value = {"/home", "/"})

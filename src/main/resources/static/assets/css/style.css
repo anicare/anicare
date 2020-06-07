@@ -558,7 +558,7 @@ li, ul {
 
 input {
     outline: 0;
-    border: none
+    border: solid 1px black;
 }
 
 textarea {
@@ -567,7 +567,7 @@ textarea {
 }
 
 input:focus, textarea:focus {
-    border-color: transparent !important
+    border-color: black !important
 }
 
 input::-webkit-input-placeholder {
@@ -614,4 +614,7 @@ tbody tr:nth-child(odd):hover td {
     background-color: #ffd !important
 }
 
-button::-moz-focus-inner{padding:0;border:0}
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0
+}
