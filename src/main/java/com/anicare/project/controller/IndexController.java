@@ -71,8 +71,8 @@ public class IndexController {
             return "forgotPassword";
         }
 
-        if (customerFound.getSecurityQuestion().equals(securityQuestion)
-                && customerFound.getSecurityAnswer().equals(securityAnswer)) {
+        if (customerFound.getSecurityQuestion().equalsIgnoreCase(securityQuestion)
+                && customerFound.getSecurityAnswer().equalsIgnoreCase(securityAnswer)) {
 
             Authentication auth =
                     new UsernamePasswordAuthenticationToken(customerFound, null, customerFound.getAuthorities());
