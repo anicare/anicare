@@ -27,7 +27,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/", "/assets/**", "/fonts/**", "/img/**", "/js/**", "/login",
-                "/home", "/about", "/register", "/registerVet", "/cities", "/contact").permitAll().anyRequest().authenticated().and()
+                "/home", "/about", "/register", "/forgotPassword", "/registerVet", "/cities", "/contact").permitAll().anyRequest().authenticated().and()
                 .exceptionHandling().accessDeniedPage("/home");
 
         http.csrf().disable().cors().disable().formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/welcome")

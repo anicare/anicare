@@ -148,18 +148,44 @@
 
                 <div class="wrap-input100 validate-input m-b-16"
                      style="background: transparent; border-bottom: 2px solid black; color: #f8f8f8"
-                     data-validate="City is required">
-                    <b><span th:errors="*{city}" class="text-danger"></span></b>
-                    <input type="text" th:field="*{city}" class="input100" placeholder="City"
+                     data-validate="Address is required">
+                    <b><span th:errors="*{streetAddress}" class="text-danger"></span></b>
+                    <input type="text" th:field="*{streetAddress}" class="input100" placeholder="Address"
                            id="exampleInputEmail1"/>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16" style="background: transparent">
+                    <b><span th:errors="*{city}" class="text-danger"></span></b>
+                    <p th:if="${cityEmpty}" class="text-danger">
+                        <b>City must be selected.</b>
+                    </p>
+                    <select class="js-example-basic-single"
+                            th:field="*{city}" style="height: 50px">
+                        <option value=""></option>
+                        <option th:each="city : ${cities}"
+                                th:value="${city.getCity()}"
+                                th:text="${city.getCity()}"></option>
+                    </select>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16" style="background: transparent">
+                    <b><span class="text-danger"></span></b>
+                    <select class="js-example-basic-single"
+                            th:field="*{securityQuestion}" style="height: 50px">
+                        <option th:each="security : ${securityQuestions}"
+                                th:value="${security}"
+                                th:text="${security}"></option>
+                    </select>
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input m-b-16"
                      style="background: transparent; border-bottom: 2px solid black; color: #f8f8f8"
-                     data-validate="Address is required">
-                    <b><span th:errors="*{streetAddress}" class="text-danger"></span></b>
-                    <input type="text" th:field="*{streetAddress}" class="input100" placeholder="Address"
+                     data-validate="Security Answer is required">
+                    <b><span class="text-danger" th:errors="*{securityAnswer}"></span></b>
+                    <input type="text" th:field="*{securityAnswer}" class="input100" placeholder="Security Answer"
                            id="exampleInputEmail1"/>
                     <span class="focus-input100"></span>
                 </div>

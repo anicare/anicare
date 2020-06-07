@@ -5,6 +5,7 @@ import com.anicare.project.service.CityService;
 import com.anicare.project.service.CustomerService;
 import com.anicare.project.service.ShelterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -20,10 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Controller
@@ -44,6 +42,48 @@ public class IndexController {
     public String welcome() {
 
         return "home";
+    }
+
+    @RequestMapping(value = "/forgotPassword")
+    public String forgotPassword(Model model) {
+        model.addAttribute("customer", new Customer());
+
+        List<String> securityQuestions = getSecurityQuestions();
+        model.addAttribute("securityQuestions", securityQuestions);
+
+        return "forgotPassword";
+    }
+
+    @RequestMapping(value = "/forgotPassword", method = RequestMethod.POST)
+    public String forgotPassword(@RequestParam("email") final String email,
+                                 @RequestParam("securityQuestion") final String securityQuestion,
+                                 @RequestParam("securityAnswer") final String securityAnswer,
+                                 Model model) {
+        model.addAttribute("customer", new Customer());
+
+        List<String> securityQuestions = getSecurityQuestions();
+        model.addAttribute("securityQuestions", securityQuestions);
+
+        Customer customerFound = customerService.findByEmail(email);
+
+        if (customerFound == null) {
+            model.addAttribute("isFailed", true);
+            return "forgotPassword";
+        }
+
+        if (customerFound.getSecurityQuestion().equals(securityQuestion)
+                && customerFound.getSecurityAnswer().equals(securityAnswer)) {
+
+            Authentication auth =
+                    new UsernamePasswordAuthenticationToken(customerFound, null, customerFound.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
+            return "changePassword";
+        }
+
+        model.addAttribute("isFailed", true);
+        return "forgotPassword";
     }
 
     @RequestMapping(value = "/shelter")
@@ -90,6 +130,9 @@ public class IndexController {
     public String registerVet(Model model) {
         model.addAttribute("customer", new Customer());
 
+        List<String> securityQuestions = getSecurityQuestions();
+        model.addAttribute("securityQuestions", securityQuestions);
+
         List<City> cities = cityService.allCities();
         model.addAttribute("cities", cities);
         return "registerVet";
@@ -99,6 +142,9 @@ public class IndexController {
     public String register(Model model) {
 
         model.addAttribute("customer", new Customer());
+
+        List<String> securityQuestions = getSecurityQuestions();
+        model.addAttribute("securityQuestions", securityQuestions);
 
         List<City> cities = cityService.allCities();
         model.addAttribute("cities", cities);
@@ -162,5 +208,15 @@ public class IndexController {
             redirect.addFlashAttribute("success", true);
             return "redirect:/login";
         } else return "register";
+    }
+
+    private List<String> getSecurityQuestions() {
+        ArrayList<String> securityQuestions = new ArrayList<>();
+
+        securityQuestions.add("First pet's name? (Security Question)");
+        securityQuestions.add("Mom's maiden name?");
+        securityQuestions.add("Primary school teacher's name?");
+
+        return securityQuestions;
     }
 }

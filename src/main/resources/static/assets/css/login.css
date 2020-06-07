@@ -363,7 +363,7 @@ a:focus {
 
 a:hover {
     text-decoration: none;
-    color: #403866
+    color: #1f1f1f;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -719,4 +719,7 @@ body {
     }
 }
 
-button::-moz-focus-inner{padding:0;border:0}
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0
+}

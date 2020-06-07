@@ -165,6 +165,26 @@
                     <span class="focus-input100"></span>
                 </div>
 
+                <div class="wrap-input100 validate-input m-b-16" style="background: transparent">
+                    <b><span class="text-danger"></span></b>
+                    <select class="js-example-basic-single"
+                            th:field="*{securityQuestion}" style="height: 50px">
+                        <option th:each="security : ${securityQuestions}"
+                                th:value="${security}"
+                                th:text="${security}"></option>
+                    </select>
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input m-b-16"
+                     style="background: transparent; border-bottom: 2px solid black; color: #f8f8f8"
+                     data-validate="Security Answer is required">
+                    <b><span class="text-danger" th:errors="*{securityAnswer}"></span></b>
+                    <input type="text" th:field="*{securityAnswer}" class="input100" placeholder="Security Answer"
+                           id="exampleInputEmail1"/>
+                    <span class="focus-input100"></span>
+                </div>
+
                 <div class="container-login100-form-btn m-t-17">
                     <input type="submit" class="login100-form-btn" value="Register"/>
                 </div>

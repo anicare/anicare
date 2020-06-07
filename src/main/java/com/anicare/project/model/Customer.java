@@ -43,6 +43,10 @@ public class Customer implements UserDetails {
 
     private String streetAddress;
 
+    private String securityQuestion;
+
+    private String securityAnswer;
+
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<CustomerRole> customerRoles = new HashSet<>();
@@ -54,7 +58,8 @@ public class Customer implements UserDetails {
     }
 
     public Customer(String username, String password, String firstName, String lastName, String email, String city,
-                    String number, String gender, String streetAddress, Set<CustomerRole> customerRoles, boolean enabled) {
+                    String number, String gender, String streetAddress, Set<CustomerRole> customerRoles, boolean enabled,
+                    String securityQuestion, String securityAnswer) {
         super();
         this.username = username;
         this.password = password;
@@ -67,6 +72,8 @@ public class Customer implements UserDetails {
         this.streetAddress = streetAddress;
         this.customerRoles = customerRoles;
         this.enabled = enabled;
+        this.securityQuestion = securityQuestion;
+        this.securityAnswer = securityAnswer;
     }
 
     public Long getId() {
@@ -189,6 +196,22 @@ public class Customer implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
     }
 
     @Override
