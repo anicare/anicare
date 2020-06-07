@@ -606,18 +606,6 @@ input:-webkit-autofill, input:-webkit-autofill:active, input:-webkit-autofill:fo
     transition: background-color 5000s ease-in-out 0s
 }
 
-tr {
-    background: #e3e6ff
-}
-
-tbody tr:nth-child(even) td {
-    background-color: #f0f0f0 !important
-}
-
-tbody tr:nth-child(odd) td {
-    background-color: #fff !important
-}
-
 tbody tr:nth-child(even):hover td {
     background-color: #ffd !important
 }

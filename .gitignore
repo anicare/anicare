@@ -7,3 +7,4 @@ target/
 *.iml
 *.ipr
 *.properties
+*.DS_Store
