@@ -21,7 +21,7 @@
     <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/animate.css" rel="stylesheet"/>
     <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/slicknav.css" rel="stylesheet"/>
     <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/bootstrap.css" rel="stylesheet"/>
-
+    <link href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/searchPanes.dataTables.min.css" rel="stylesheet"/>
     <link th:href="@{../assets/css/style.css}" rel="stylesheet"/>
 
     <link rel="stylesheet"
@@ -29,6 +29,13 @@
 
     <link rel="stylesheet" type="text/css"
           href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/select/1.3.1/css/select.dataTables.min.css"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css"/>
+
+    <link th:href="@{../assets/css/searchPanes.dataTables.min.css}" rel="stylesheet"/>
 
     <link rel="stylesheet" type="text/css"
           href="https://content-anicare.s3.eu-central-1.amazonaws.com/css/bootstrap-datepicker.css"/>
@@ -103,6 +110,7 @@
 <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/modernizr-3.5.0.min.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery-1.12.4.min.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/bootstrap.min.js"></script>
@@ -110,6 +118,7 @@
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/isotope.pkgd.min.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/ajax-form.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/waypoints.min.js"></script>
+<script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.counterup.min.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/imagesloaded.pkgd.min.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/scrollIt.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.scrollUp.min.js"></script>
@@ -125,8 +134,7 @@
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.ajaxchimp.min.js"></script>
 <script src="https://content-anicare.s3.eu-central-1.amazonaws.com/homepage/jquery.validate.min.js"></script>
 
-<script th:src="@{../assets/js/main.js}"></script>
-<script th:src="@{../assets/js/jquery-counterup.min.js}"></script>
+<script th:src="@{../assets/homepage/main.js}"></script>
 
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
@@ -134,8 +142,14 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
 <script type="text/javascript" charset="utf8"
         src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/searchpanes/1.1.1/js/dataTables.searchPanes.min.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript"
         src="https://content-anicare.s3.eu-central-1.amazonaws.com/js/bootstrap-datepicker.js"></script>
 
@@ -186,6 +200,11 @@
 
 <script type="text/javascript" language="javascript" class="init">
     $(document).ready(function () {
+        let today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
         $('#myTable').dataTable({
             "order": [[2, "asc"]],
             'iDisplayLength': 10,
@@ -196,7 +215,46 @@
             "columnDefs": [{
                 "targets": 0,
             }],
-            "sPaginationType": "full_numbers"
+            "sPaginationType": "full_numbers",
+            searchPanes: {
+                orderable: false,
+                columns: [2],
+                panes: [
+                    {
+                        header: 'Filter by Date',
+                        options: [
+                            {
+                                label: 'Today appointments',
+                                value: function (rowData, rowIdx) {
+                                    return Date.parse(rowData[2]) === Date.parse(today);
+                                }
+                            },
+                            {
+                                label: 'Future appointments',
+                                value: function (rowData, rowIdx) {
+                                    return Date.parse(rowData[2]) > Date.parse(today);
+                                }
+                            },
+                            {
+                                label: 'Past appointments',
+                                value: function (rowData, rowIdx) {
+                                    return Date.parse(today) > Date.parse(rowData[2]);
+                                }
+                            }
+
+                        ],
+                        dtOpts: {
+                            searching: false,
+                            order: [[1, 'desc']]
+                        }
+                    }
+                ],
+                layout: 'columns-0',
+            },
+            buttons: [
+                'searchPanes'
+            ],
+            dom: 'Pfrtip'
         });
     });
 
@@ -211,21 +269,6 @@
             "columnDefs": [{
                 "targets": 0,
             }],
-        });
-    });
-
-    $(document).ready(function () {
-        $('#myTable2').dataTable({
-            "order": [[0, "asc"]],
-            'iDisplayLength': 10,
-            "bFilter": true,
-            "bPaginate": true,
-            "bInfo": true,
-            "bLengthChange": true,
-            "columnDefs": [{
-                "targets": 0,
-            }],
-            "sPaginationType": "full_numbers"
         });
     });
 </script>
