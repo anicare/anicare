@@ -39,7 +39,7 @@ public class Customer implements UserDetails {
 
     private String number;
 
-    private String gender;
+    private String type;
 
     private String streetAddress;
 
@@ -58,7 +58,7 @@ public class Customer implements UserDetails {
     }
 
     public Customer(String username, String password, String firstName, String lastName, String email, String city,
-                    String number, String gender, String streetAddress, Set<CustomerRole> customerRoles, boolean enabled,
+                    String number, String type, String streetAddress, Set<CustomerRole> customerRoles, boolean enabled,
                     String securityQuestion, String securityAnswer) {
         super();
         this.username = username;
@@ -68,7 +68,7 @@ public class Customer implements UserDetails {
         this.email = email;
         this.city = city;
         this.number = number;
-        this.gender = gender;
+        this.type = type;
         this.streetAddress = streetAddress;
         this.customerRoles = customerRoles;
         this.enabled = enabled;
@@ -132,12 +132,12 @@ public class Customer implements UserDetails {
         this.city = city;
     }
 
-    public String getGender() {
-        return gender;
+    public String getType() {
+        return type;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Set<CustomerRole> getCustomerRoles() {
@@ -168,7 +168,7 @@ public class Customer implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorites = new HashSet<>();
         String authority = "ROLE_USER";
-        if (gender.equals("V"))
+        if (type.equals("V"))
             authority = "ROLE_ADMIN";
         String AUTHORITY = authority;
         customerRoles.forEach(ur -> authorites.add(new Authority(AUTHORITY)));

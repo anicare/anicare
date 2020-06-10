@@ -34,8 +34,8 @@
                     </thead>
                     <tbody>
                     <tr th:each="appointment : ${appointments}" class="text-center">
-                        <td><span th:text="${appointment.vet.getFirstName()}"></span>
-                            <span th:text="${appointment.vet.getLastName()}"></span></td>
+                        <td><span th:text="${appointment.vet.getCustomer().getFirstName()}"></span>
+                            <span th:text="${appointment.vet.getCustomer().getLastName()}"></span></td>
                         <td><span th:text="${appointment.pet.getName()}"></span></td>
                         <td th:text="${appointment.toDate}"></td>
                         <td th:text="${appointment.toTime}"></td>

@@ -128,7 +128,7 @@
                                             th:each="appointment : ${pet.appointment}">
                                             <td th:text="${appointment.toDate}"></td>
                                             <td
-                                                    th:text="${appointment.vet.getFirstName() +' '+ appointment.vet.getLastName()}"></td>
+                                                    th:text="${appointment.vet.getCustomer().getFirstName() +' '+ appointment.vet.getCustomer().getLastName()}"></td>
                                             <td th:text="${appointment.note}"></td>
                                             <td class="td-actions"><a
                                                     th:href="@{/editAppointment(id=${appointment.id})}"

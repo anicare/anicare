@@ -202,7 +202,7 @@ public class IndexController {
             customerRoles.add(new CustomerRole(customer, new Role().getDefaultRole()));
 
             customer.setEnabled(true);
-            customer.setGender("U");
+            customer.setType("U");
 
             customerService.saveCustomer(customer, customerRoles);
             redirect.addFlashAttribute("success", true);

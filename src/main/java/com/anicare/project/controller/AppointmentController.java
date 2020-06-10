@@ -58,7 +58,7 @@ public class AppointmentController {
 
     @RequestMapping(value = "/vets", method = RequestMethod.GET)
     public ModelAndView vets() {
-        List<Vet> vets = vetService.allVets();
+        List<Customer> vets = vetService.allVets();
         return new ModelAndView("vets", "vets", vets);
     }
 
@@ -66,7 +66,7 @@ public class AppointmentController {
     public ModelAndView newAppointment(Model model, Principal principal) {
         model.addAttribute("appointment", new Appointment());
 
-        List<Vet> vets = vetService.allVets();
+        List<Customer> vets = vetService.allVets();
 
         List<Pet> pets = petService.petsByCustomer(customerService.findByUsername(principal.getName()));
         model.addAttribute("pets", pets);
@@ -78,8 +78,8 @@ public class AppointmentController {
         Customer customer = customerService.findByUsername(principal.getName());
         model.addAttribute("customer", customer);
 
-        List<Vet> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
-        List<Vet> vetsOnBreak = getFilteredAppointmentsByBreak(vets, customer, false);
+        List<Customer> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
+        List<Customer> vetsOnBreak = getFilteredAppointmentsByBreak(vets, customer, false);
 
         handleBreaks(model, vetsOnBreak);
         return new ModelAndView("newAppointment", "vets", vetsFiltered);
@@ -118,7 +118,7 @@ public class AppointmentController {
         if (toTime.equals("0")) {
             String timeRequiredString = "Time is required.";
 
-            List<Vet> vets = vetService.allVets();
+            List<Customer> vets = vetService.allVets();
 
             List<Pet> pets = petService.petsByCustomer(customerService.findByUsername(principal.getName()));
             model.addAttribute("pets", pets);
@@ -128,7 +128,7 @@ public class AppointmentController {
 
             Customer customer = customerService.findByUsername(principal.getName());
             model.addAttribute("customer", customer);
-            List<Vet> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
+            List<Customer> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
 
             model.addAttribute("timeRequired", true);
             model.addAttribute("timeRequiredString", timeRequiredString);
@@ -139,7 +139,7 @@ public class AppointmentController {
         if (exists) {
             String availableTimesString = "";
 
-            List<Vet> vets = vetService.allVets();
+            List<Customer> vets = vetService.allVets();
 
             List<Pet> pets = petService.petsByCustomer(customerService.findByUsername(principal.getName()));
             model.addAttribute("pets", pets);
@@ -150,7 +150,7 @@ public class AppointmentController {
             Customer customer = customerService.findByUsername(principal.getName());
             model.addAttribute("customer", customer);
 
-            List<Vet> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
+            List<Customer> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
             availableTimesString += "Selected time (" + toTime + ")" + " is not available.";
             if (availableTimes.isEmpty()) {
                 availableTimesString += "<br/>There are no available times for this date for this vet.";
@@ -164,7 +164,7 @@ public class AppointmentController {
         }
 
         if (result.hasErrors()) {
-            List<Vet> vets = vetService.allVets();
+            List<Customer> vets = vetService.allVets();
 
             List<Pet> pets = petService.petsByCustomer(customerService.findByUsername(principal.getName()));
             model.addAttribute("pets", pets);
@@ -175,7 +175,7 @@ public class AppointmentController {
             Customer customer = customerService.findByUsername(principal.getName());
             model.addAttribute("customer", customer);
 
-            List<Vet> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
+            List<Customer> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
             model.addAttribute("times", availableTimes);
             model.addAttribute("appointments", availableTimes);
             return new ModelAndView("newAppointment", "vets", vetsFiltered);
@@ -191,19 +191,19 @@ public class AppointmentController {
                 .filter(appointment ->
                         appointment.getPet().getCustomer()
                                 .getEmail().equals(customer.getEmail()) ||
-                                appointment.getVet()
+                                appointment.getVet().getCustomer()
                                         .getEmail().equals(customer.getEmail()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private List<Vet> getFilteredAppointmentsByBreak(List<Vet> vets, Customer customer, boolean isEnabled) {
+    private List<Customer> getFilteredAppointmentsByBreak(List<Customer> vets, Customer customer, boolean isEnabled) {
         return IntStream.range(0, vets.size())
                 .filter(i -> ((customer.getCity().equals(vets.get(i).getCity())) && vets.get(i).isEnabled() == isEnabled))
                 .mapToObj(vets::get)
                 .collect(Collectors.toList());
     }
 
-    private void handleBreaks(Model model, List<Vet> vetsOnBreak) {
+    private void handleBreaks(Model model, List<Customer> vetsOnBreak) {
         String vetsOnBreakMessage = "";
         model.addAttribute("notAvailable", false);
 
