@@ -29,14 +29,14 @@ public class Appointment {
 
     @NotNull(message = "Vet is required")
     @ManyToOne
-    @JoinColumn(name = "vet_id")
-    private Vet vet;
+    @JoinColumn(name = "customer_id")
+    private Customer vet;
 
     public Appointment() {
         super();
     }
 
-    public Appointment(Date toDate, String note, Pet pet, Vet vet) {
+    public Appointment(Date toDate, String note, Pet pet, Customer vet) {
         super();
         this.toDate = toDate;
         this.note = note;
@@ -85,12 +85,12 @@ public class Appointment {
         this.pet = pet;
     }
 
-    public Vet getVet() {
+    public Customer getVet() {
         return vet;
     }
 
-    public void setVet(Vet vet) {
-        this.vet = vet;
+    public void setVet(Customer customer) {
+        this.vet = customer;
     }
 
     @Override

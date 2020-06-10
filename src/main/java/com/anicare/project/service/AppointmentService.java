@@ -27,6 +27,10 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
     }
 
+    public void remove(Appointment appointment) {
+        appointmentRepository.delete(appointment.getId());
+    }
+
     public Appointment getOne(Long id) {
         return appointmentRepository.findOne(id);
     }

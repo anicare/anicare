@@ -1,6 +1,9 @@
 package com.anicare.project.controller;
 
-import com.anicare.project.model.*;
+import com.anicare.project.model.Appointment;
+import com.anicare.project.model.City;
+import com.anicare.project.model.Customer;
+import com.anicare.project.model.Pet;
 import com.anicare.project.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,6 +59,40 @@ public class AppointmentController {
         return new ModelAndView("appointments", "appointments", appointmentsByCustomer);
     }
 
+    @RequestMapping(value = "/editAppointment", method = RequestMethod.GET)
+    public ModelAndView editAppointment(Long id, Model model, Principal principal) {
+        Appointment appointment = appointmentService.getOne(id);
+
+        Customer vet = appointment.getVet();
+        Pet pet = appointment.getPet();
+
+        List<Customer> vets = vetService.allVets();
+        List<Pet> pets = petService.petsByCustomer(customerService.findByUsername(principal.getName()));
+
+        model.addAttribute("pets", pets);
+        model.addAttribute("vets", vets);
+        model.addAttribute("vet", vet);
+        model.addAttribute("pet", pet);
+        model.addAttribute("times", appointment.getToTime());
+
+        return new ModelAndView("editAppointment", "appointment", appointment);
+    }
+
+    @RequestMapping(value = "/deleteAppointment", method = RequestMethod.POST)
+    public ModelAndView deleteAppointment(Long id, Model model, Principal principal) {
+        Appointment appointmentFound = appointmentService.getOne(id);
+
+        appointmentService.remove(appointmentFound);
+
+        Customer customer = customerService.findByUsername(principal.getName());
+        model.addAttribute("customer", customer);
+
+        List<Appointment> appointments = appointmentService.allAppointments();
+        List<Appointment> appointmentsByCustomer = getFilteredAppointments(customer, appointments);
+
+        return new ModelAndView("appointments", "appointments", appointmentsByCustomer);
+    }
+
     @RequestMapping(value = "/vets", method = RequestMethod.GET)
     public ModelAndView vets() {
         List<Customer> vets = vetService.allVets();
@@ -94,7 +131,7 @@ public class AppointmentController {
 
         Date toDate = newAppointment.getToDate();
         String toTime = newAppointment.getToTime();
-        Vet vet = newAppointment.getVet();
+        Customer vet = newAppointment.getVet();
 
         model.addAttribute("notAvailable", false);
         model.addAttribute("timeRequired", false);
@@ -191,7 +228,7 @@ public class AppointmentController {
                 .filter(appointment ->
                         appointment.getPet().getCustomer()
                                 .getEmail().equals(customer.getEmail()) ||
-                                appointment.getVet().getCustomer()
+                                appointment.getVet()
                                         .getEmail().equals(customer.getEmail()))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
