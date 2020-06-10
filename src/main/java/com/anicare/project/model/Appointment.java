@@ -22,6 +22,8 @@ public class Appointment {
 
     private String note;
 
+    private String rating;
+
     @NotNull(message = "Pet is required")
     @ManyToOne
     @JoinColumn(name = "pet_id")
@@ -75,6 +77,14 @@ public class Appointment {
     public void setNote(String note) {
         note = refactor(note);
         this.note = note;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public Pet getPet() {

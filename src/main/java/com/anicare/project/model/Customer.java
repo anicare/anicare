@@ -41,6 +41,8 @@ public class Customer implements UserDetails {
 
     private String type;
 
+    private String rating;
+
     private String streetAddress;
 
     private String securityQuestion;
@@ -58,7 +60,7 @@ public class Customer implements UserDetails {
     }
 
     public Customer(String username, String password, String firstName, String lastName, String email, String city,
-                    String number, String type, String streetAddress, Set<CustomerRole> customerRoles, boolean enabled,
+                    String number, String type, String rating, String streetAddress, Set<CustomerRole> customerRoles, boolean enabled,
                     String securityQuestion, String securityAnswer) {
         super();
         this.username = username;
@@ -69,6 +71,7 @@ public class Customer implements UserDetails {
         this.city = city;
         this.number = number;
         this.type = type;
+        this.rating = rating;
         this.streetAddress = streetAddress;
         this.customerRoles = customerRoles;
         this.enabled = enabled;
@@ -114,6 +117,14 @@ public class Customer implements UserDetails {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
     public String getEmail() {

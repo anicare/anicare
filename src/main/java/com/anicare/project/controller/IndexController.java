@@ -179,6 +179,8 @@ public class IndexController {
         model.addAttribute("cities", cityService.allCities());
 
         if (customerService.checkUserExist(customer.getUsername(), customer.getEmail())) {
+            List<String> securityQuestions = getSecurityQuestions();
+            model.addAttribute("securityQuestions", securityQuestions);
             if (customerService.checkEmailExist(customer.getEmail())) {
                 model.addAttribute("emailExist", true);
             }
@@ -203,6 +205,7 @@ public class IndexController {
 
             customer.setEnabled(true);
             customer.setType("U");
+            customer.setRating("-");
 
             customerService.saveCustomer(customer, customerRoles);
             redirect.addFlashAttribute("success", true);

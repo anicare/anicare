@@ -17,8 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,6 +80,48 @@ public class AppointmentController {
         return new ModelAndView("editAppointment", "appointment", appointment);
     }
 
+    @RequestMapping(value = "/rateAppointment", method = RequestMethod.GET)
+    public ModelAndView rateAppointment(Long id, Model model) {
+        Appointment appointment = appointmentService.getOne(id);
+
+        List<String> ratings = Arrays.asList("★", "★★", "★★★", "★★★★", "★★★★★");
+        model.addAttribute("rates", ratings);
+
+        return new ModelAndView("rateAppointment", "appointment", appointment);
+    }
+
+    @RequestMapping(value = "/saveRateAppointment", method = RequestMethod.POST)
+    public ModelAndView saveRateAppointment(Long id, String rating, Model model, Principal principal) {
+        switch (rating) {
+            case "★":
+                rating = "1";
+                break;
+            case "★★":
+                rating = "2";
+                break;
+            case "★★★":
+                rating = "3";
+                break;
+            case "★★★★":
+                rating = "4";
+                break;
+            default:
+                rating = "5";
+                break;
+        }
+        Appointment appointment = appointmentService.getOne(id);
+        appointment.setRating(rating);
+        appointmentService.saveAppointment(appointment);
+
+        Customer customer = customerService.findByUsername(principal.getName());
+        model.addAttribute("customer", customer);
+
+        List<Appointment> appointments = appointmentService.allAppointments();
+        List<Appointment> appointmentsByCustomer = getFilteredAppointments(customer, appointments);
+
+        return new ModelAndView("appointments", "appointments", appointmentsByCustomer);
+    }
+
     @RequestMapping(value = "/deleteAppointment", method = RequestMethod.POST)
     public ModelAndView deleteAppointment(Long id, Model model, Principal principal) {
         Appointment appointmentFound = appointmentService.getOne(id);
@@ -96,6 +140,8 @@ public class AppointmentController {
     @RequestMapping(value = "/vets", method = RequestMethod.GET)
     public ModelAndView vets() {
         List<Customer> vets = vetService.allVets();
+        List<Appointment> appointments = appointmentService.allAppointments();
+        getRatings(vets, appointments);
         return new ModelAndView("vets", "vets", vets);
     }
 
@@ -217,6 +263,7 @@ public class AppointmentController {
             model.addAttribute("appointments", availableTimes);
             return new ModelAndView("newAppointment", "vets", vetsFiltered);
         } else {
+            newAppointment.setRating("-");
             appointmentService.saveAppointment(newAppointment);
             redirect.addFlashAttribute("newAppointmentSuccess", true);
             return new ModelAndView("redirect:/appointments");
@@ -285,5 +332,27 @@ public class AppointmentController {
         times.add("17.30 - 18.00");
 
         return times;
+    }
+
+    private void getRatings(List<Customer> vets, List<Appointment> appointments) {
+        int i = 0;
+        while (i < vets.size()) {
+            double total = 0;
+            double count = 0;
+            List<Appointment> appointmentByVet = getFilteredAppointments(vets.get(i), appointments);
+            for (Appointment appointment : appointmentByVet) {
+                if (!appointment.getRating().equals("-")) {
+                    total += Integer.parseInt(appointment.getRating());
+                    count++;
+                }
+            }
+            if (!Double.isNaN(total / count)) {
+                DecimalFormat df = new DecimalFormat("#.0");
+                Customer vet = customerService.findByUsername(vets.get(i).getUsername());
+                vet.setRating(String.valueOf(df.format(total / count)));
+                customerService.saveCustomer(vet, vet.getCustomerRoles());
+            }
+            i++;
+        }
     }
 }
