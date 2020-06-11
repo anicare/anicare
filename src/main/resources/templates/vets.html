@@ -34,7 +34,8 @@
                     <tbody>
                     <tr th:each="vet : ${vets}">
                         <td th:text="${vet.city}"></td>
-                        <td th:text="${vet.rating} + ' ★'"></td>
+                        <td th:if="!${vet.rating.equals('-')}" th:text="${vet.rating} + ' ★'"></td>
+                        <td th:if="${vet.rating.equals('-')}" th:text="'-'"></td>
                         <td th:text="${vet.firstName}"></td>
                         <td th:text="${vet.lastName}"></td>
                         <td th:text="${vet.streetAddress}"></td>
