@@ -35,6 +35,9 @@ public class AppointmentController {
     private final PetService petService;
     private final CityService cityService;
 
+    private static boolean isEdit = false;
+    private static String editTime = "";
+
     @Autowired
     public AppointmentController(AppointmentService appointmentService,
                                  CustomerService customerService,
@@ -76,6 +79,9 @@ public class AppointmentController {
         model.addAttribute("vet", vet);
         model.addAttribute("pet", pet);
         model.addAttribute("times", appointment.getToTime());
+
+        isEdit = true;
+        editTime = appointment.getToTime();
 
         return new ModelAndView("editAppointment", "appointment", appointment);
     }
@@ -164,6 +170,9 @@ public class AppointmentController {
         List<Customer> vetsFiltered = getFilteredAppointmentsByBreak(vets, customer, true);
         List<Customer> vetsOnBreak = getFilteredAppointmentsByBreak(vets, customer, false);
 
+        isEdit = false;
+        editTime = "";
+
         handleBreaks(model, vetsOnBreak);
         return new ModelAndView("newAppointment", "vets", vetsFiltered);
     }
@@ -191,7 +200,7 @@ public class AppointmentController {
 
         for (Appointment appointment : appointments) {
             if (appointment.getToDate().toString().equals(formattedDate) && appointment.getVet().equals(vet)) {
-                if (appointment.getToTime().equals(toTime)) {
+                if (appointment.getToTime().equals(toTime) && (!isEdit || !toTime.equals(editTime))) {
                     availableTimes.remove(appointment.getToTime());
                     exists = true;
                 }
