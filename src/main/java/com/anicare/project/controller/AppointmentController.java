@@ -350,7 +350,7 @@ public class AppointmentController {
                 DecimalFormat df = new DecimalFormat("#.0");
                 Customer vet = customerService.findByUsername(vets.get(i).getUsername());
                 vet.setRating(String.valueOf(df.format(total / count)));
-                customerService.saveCustomer(vet, vet.getCustomerRoles());
+                customerService.updateCustomer(vet);
             }
             i++;
         }

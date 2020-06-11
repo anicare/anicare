@@ -120,7 +120,7 @@
                                             <th class="text-center">To Date</th>
                                             <th class="text-center">Vet</th>
                                             <th class="text-center">Note</th>
-                                            <th class="text-center">Status</th>
+                                            <th sec:authorize="hasRole('ROLE_USER')" class="text-center">Edit</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -130,10 +130,31 @@
                                             <td
                                                     th:text="${appointment.vet.getFirstName() +' '+ appointment.vet.getLastName()}"></td>
                                             <td th:text="${appointment.note}"></td>
-                                            <td class="td-actions"><a
-                                                    th:href="@{/editAppointment(id=${appointment.id})}"
+                                            <td th:if="${appointment.getToDate().after(#dates.createNow())}"
+                                                sec:authorize="hasRole('ROLE_USER')" class="td-actions"><a
+                                                    th:href="@{/editAppointment(id=${appointment.getId()})}"
                                                     class="btn btn-default btn-xs"><span
-                                                    class="fas fa-pencil-alt"></span>Edit</a></td>
+                                                    class="fas fa-pencil-alt"></span>&nbsp;Edit&nbsp;&nbsp;</a></td>
+                                            <td th:if="${appointment.getToDate().before(#dates.createNow())} and ${appointment.getRating().equals('-')}"
+                                                sec:authorize="hasRole('ROLE_USER')" class="td-actions"><a
+                                                    th:href="@{/rateAppointment(id=${appointment.getId()})}"
+                                                    class="btn btn-default btn-xs"><span
+                                                    class="fas fa-star"></span>Rate</a></td>
+                                            <td th:if="${appointment.getToDate().before(#dates.createNow())} and ${appointment.getRating().equals('5')}"
+                                                sec:authorize="hasRole('ROLE_USER')"
+                                                class="td-actions"><a><span></span>★★★★★</a></td>
+                                            <td th:if="${appointment.getToDate().before(#dates.createNow())} and ${appointment.getRating().equals('4')}"
+                                                sec:authorize="hasRole('ROLE_USER')"
+                                                class="td-actions"><a><span></span>★★★★</a></td>
+                                            <td th:if="${appointment.getToDate().before(#dates.createNow())} and ${appointment.getRating().equals('3')}"
+                                                sec:authorize="hasRole('ROLE_USER')"
+                                                class="td-actions"><a><span></span>★★★</a></td>
+                                            <td th:if="${appointment.getToDate().before(#dates.createNow())} and ${appointment.getRating().equals('2')}"
+                                                sec:authorize="hasRole('ROLE_USER')"
+                                                class="td-actions"><a><span></span>★★</a></td>
+                                            <td th:if="${appointment.getToDate().before(#dates.createNow())} and ${appointment.getRating().equals('1')}"
+                                                sec:authorize="hasRole('ROLE_USER')"
+                                                class="td-actions"><a><span></span>★</a></td>
                                         </tr>
                                         </tbody>
                                     </table>
